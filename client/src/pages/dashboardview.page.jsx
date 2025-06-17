@@ -26,7 +26,7 @@ import SettingsPage from "../pages/settings.page";
 
 const drawerWidth = 240;
 
-const DashboardViewPage = () => {
+const DashboardViewPage = ({ darkMode, setDarkMode }) => {
   let content;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -74,6 +74,8 @@ const DashboardViewPage = () => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
       />
       <Box
         component="nav"

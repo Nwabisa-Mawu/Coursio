@@ -28,10 +28,9 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import { AccountCircle } from "@mui/icons-material";
 import SearchInput from "./search.component";
 
-const Header = ({ loggedIn = true }) => {
+const Header = ({ loggedIn = true, darkMode, setDarkMode }) => {
   let showLogin = false;
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [darkMode, setDarkMode] = useState(true); // Local toggle for now
   const navigate = useNavigate();
   const theme = useTheme();
   const isTabletOrBelow = useMediaQuery(theme.breakpoints.down("md"));
