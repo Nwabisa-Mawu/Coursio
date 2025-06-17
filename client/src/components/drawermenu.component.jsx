@@ -1,4 +1,5 @@
 import React, { useState} from "react";
+import { useNavigate } from "react-router";
 import {
   Divider,
   List,
@@ -11,8 +12,9 @@ import {
   Box,
   IconButton
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/Inbox";
-import MailIcon from "@mui/icons-material/Mail";
+import SchoolIcon from '@mui/icons-material/School';
+import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
@@ -22,29 +24,30 @@ const drawer = (
     <Toolbar />
     <Divider />
     <List sx={{ color: "blue" }}>
-      {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-        <ListItem key={text} disablePadding>
+        <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <SchoolIcon />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary="Courses" />
           </ListItemButton>
         </ListItem>
-      ))}
-    </List>
-    <Divider />
-    <List sx={{ color: "blue" }}>
-      {["All mail", "Trash", "Spam"].map((text, index) => (
-        <ListItem key={text} disablePadding>
+        <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+             <PersonIcon />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary="Account" />
           </ListItemButton>
         </ListItem>
-      ))}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItemButton>
+        </ListItem>
     </List>
   </div>
 );
@@ -52,6 +55,7 @@ const drawer = (
 const DrawerMenu = ({ drawerWidth }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const navigate = useNavigate();
 
   const handleDrawerClose = () => {
     setIsClosing(true);

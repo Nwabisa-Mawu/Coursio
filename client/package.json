@@ -16,7 +16,8 @@
     "@mui/material": "^6.0.0",
     "hoist-non-react-statics": "^3.3.2",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router": "^7.6.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

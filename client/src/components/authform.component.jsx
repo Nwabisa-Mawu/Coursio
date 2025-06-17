@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -10,6 +11,7 @@ const AuthForm = ({ mode = 'signup', onSubmit }) => {
     password: '',
     confirmPassword: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -65,7 +67,7 @@ const AuthForm = ({ mode = 'signup', onSubmit }) => {
         />
       )}
 
-      <Button type="submit" variant="contained">
+      <Button type="submit" variant="contained" onClick={() => navigate('/dashboard/courses')}>
         {mode === 'login' ? 'Login' : 'Sign Up'}
       </Button>
     </Box>
