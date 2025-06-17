@@ -43,7 +43,7 @@ const CourseViewPage = () => {
   });
 
   return (
-    <Box sx={{ p: 4 }}>
+    <Box sx={{ p: 4 ,mt: 5 }}>
       {/* FILTERS */}
       <Box
         sx={{

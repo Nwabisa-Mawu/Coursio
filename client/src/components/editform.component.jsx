@@ -59,7 +59,7 @@ const UserProfileEditForm = ({ onCancel, onSave }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 600, mx: 'auto', p: 4 }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 600, mx: 'auto', p: 4, mt: 5 }}>
       <Typography variant="h5" gutterBottom>
         Personal Information
       </Typography>

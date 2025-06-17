@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import {
   Card,
   CardMedia,
@@ -6,9 +7,23 @@ import {
   Typography,
   CardActions,
   Button,
+  IconButton
 } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const CourseCard = ({ course }) => {
+   const [liked, setLiked] = useState(false);
+   const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/dashboard/course/course`);
+  }
+
+   const handleLikeToggle = () => {
+    setLiked((prev) => !prev);
+  };
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -30,7 +45,10 @@ const CourseCard = ({ course }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <IconButton onClick={handleLikeToggle}>
+          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+        <Button size="small" onClick={() => navigate("/dashboard/course")}>Learn More</Button>
       </CardActions>
     </Card>
   );

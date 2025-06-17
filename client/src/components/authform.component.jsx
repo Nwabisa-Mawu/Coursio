@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -12,6 +12,8 @@ const AuthForm = ({ mode = 'signup', onSubmit }) => {
     confirmPassword: '',
   });
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoginPage = location.pathname.includes('/auth/login');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +30,7 @@ const AuthForm = ({ mode = 'signup', onSubmit }) => {
       onSubmit={handleSubmit}
       sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
     >
-      {mode === 'signup' && (
+      {!isLoginPage && (
         <TextField
           name="name"
           label="Name"
@@ -56,7 +58,7 @@ const AuthForm = ({ mode = 'signup', onSubmit }) => {
         required
       />
 
-      {mode === 'signup' && (
+      {!isLoginPage && (
         <TextField
           name="confirmPassword"
           label="Confirm Password"
@@ -68,7 +70,7 @@ const AuthForm = ({ mode = 'signup', onSubmit }) => {
       )}
 
       <Button type="submit" variant="contained" onClick={() => navigate('/dashboard/courses')}>
-        {mode === 'login' ? 'Login' : 'Sign Up'}
+        {isLoginPage ? 'Login' : 'Sign Up'}
       </Button>
     </Box>
   );

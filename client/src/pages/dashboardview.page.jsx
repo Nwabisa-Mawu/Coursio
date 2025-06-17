@@ -1,5 +1,5 @@
 import * as React from "react";
-import PropTypes from "prop-types";
+import { useLocation } from "react-router";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -21,12 +21,16 @@ import AuthPage from "../pages/auth.page";
 import CourseViewPage from "../pages/courseview.page";
 import DrawerMenu from "../components/drawermenu.component";
 import UserProfileEditForm from "../components/editform.component";
+import CourseInfoView from "../pages/courseinfoview.page";
+import SettingsPage from "../pages/settings.page";
 
 const drawerWidth = 240;
 
 const DashboardViewPage = () => {
+  let content;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const location = useLocation();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -42,6 +46,24 @@ const DashboardViewPage = () => {
       setMobileOpen(!mobileOpen);
     }
   };
+
+  if (location.pathname.includes("/dashboard/courses")) {
+    content = <CourseViewPage />;
+  } else if (location.pathname.includes("/dashboard/user")) {
+    content = <UserProfileEditForm />;
+  } else if (location.pathname.includes("/dashboard/course")) {
+    content = <CourseInfoView course={{
+    title: "React for Beginners",
+    instructor: "Jane Doe",
+    difficulty: "Beginner",
+    description: "This course covers the fundamentals of React...",
+    imageUrl: "https://via.placeholder.com/600x300.png?text=React+Course",
+  }}/>
+  } else if (location.pathname.includes("/dashboard/settings")) {
+    content = <SettingsPage />;
+  } else {
+    content = <div>Page Not Found</div>;
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -68,13 +90,10 @@ const DashboardViewPage = () => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Toolbar />
-        {/* <AuthPage /> */}
-       <CourseViewPage />
-       {/* <UserProfileEditForm /> */}
+        {content}
       </Box>
     </Box>
   );
-}
+};
 
 export default DashboardViewPage;
