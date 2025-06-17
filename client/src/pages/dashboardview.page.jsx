@@ -30,6 +30,7 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
   let content;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
   const location = useLocation();
 
   const handleDrawerClose = () => {
@@ -48,7 +49,7 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
   };
 
   if (location.pathname.includes("/dashboard/courses")) {
-    content = <CourseViewPage />;
+    content = <CourseViewPage searchQuery={searchQuery} />;
   } else if (location.pathname.includes("/dashboard/user")) {
     content = <UserProfileEditForm />;
   } else if (location.pathname.includes("/dashboard/course")) {
@@ -76,6 +77,8 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
         }}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       />
       <Box
         component="nav"

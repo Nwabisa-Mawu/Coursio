@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import CourseCard from "../components/coursecard.component";
 
-const CourseViewPage = () => {
+const CourseViewPage = ({ searchQuery }) => {
   const [visibleCount, setVisibleCount] = useState(6);
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
@@ -27,7 +27,9 @@ const CourseViewPage = () => {
     id: index + 1,
     title: `Course ${index + 1}`,
     description: `This is a description for Course ${index + 1}.`,
-    imageUrl: `https://via.placeholder.com/345x140.png?text=Course+${index + 1}`,
+    imageUrl: `https://via.placeholder.com/345x140.png?text=Course+${
+      index + 1
+    }`,
     category: index % 2 === 0 ? "Programming" : "Design",
     difficulty: index % 3 === 0 ? "Beginner" : "Advanced",
     favourite: index % 4 === 0,
@@ -35,7 +37,13 @@ const CourseViewPage = () => {
 
   // Filtered courses
   const filteredCourses = sampleCourses.filter((course) => {
+    const query = searchQuery?.toLowerCase() || "";
+    const match =
+      course.title.toLowerCase().includes(query) ||
+      course.instructor?.toLowerCase().includes(query);
+
     return (
+      (query === "" || match) &&
       (category === "" || course.category === category) &&
       (difficulty === "" || course.difficulty === difficulty) &&
       (view === "all" || course.favourite)
@@ -43,7 +51,7 @@ const CourseViewPage = () => {
   });
 
   return (
-    <Box sx={{ p: 4 ,mt: 5 }}>
+    <Box sx={{ p: 4, mt: 5 }}>
       {/* FILTERS */}
       <Box
         sx={{

@@ -28,7 +28,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import { AccountCircle } from "@mui/icons-material";
 import SearchInput from "./search.component";
 
-const Header = ({ loggedIn = true, darkMode, setDarkMode }) => {
+const Header = ({ loggedIn = true, darkMode, setDarkMode, searchQuery, setSearchQuery }) => {
   let showLogin = false;
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
@@ -103,7 +103,7 @@ const Header = ({ loggedIn = true, darkMode, setDarkMode }) => {
                   width: { xs: "50%", md: "40%" },
                 }}
               >
-                <SearchInput />
+                <SearchInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
               </Box>
             )}
 
