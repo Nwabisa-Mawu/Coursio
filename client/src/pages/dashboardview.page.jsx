@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useLocation } from "react-router";
+import { useLocation, useParams } from "react-router";
+import { getCourses } from "../utils/courses-api";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -32,6 +33,8 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
   const [isClosing, setIsClosing] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
   const location = useLocation();
+  const { courseId } = useParams();
+  const { data: courses = [] } = getCourses();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -53,13 +56,12 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
   } else if (location.pathname.includes("/dashboard/user")) {
     content = <UserProfileEditForm />;
   } else if (location.pathname.includes("/dashboard/course")) {
-    content = <CourseInfoView course={{
-    title: "React for Beginners",
-    instructor: "Jane Doe",
-    difficulty: "Beginner",
-    description: "This course covers the fundamentals of React...",
-    imageUrl: "https://via.placeholder.com/600x300.png?text=React+Course",
-  }}/>
+    const course = courses.find((c) => String(c.id) === String(courseId));
+    if (course) {
+      content = <CourseInfoView course={course} />;
+    } else {
+      content = <div>Loading course details...</div>;
+    }
   } else if (location.pathname.includes("/dashboard/settings")) {
     content = <SettingsPage />;
   } else {

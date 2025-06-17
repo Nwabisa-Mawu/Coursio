@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { getCourses } from "../utils/courses-api";
+import { userStore } from "../utils/mockAPI-user";
+
 import {
   Box,
   Button,
@@ -12,31 +16,25 @@ import {
 } from "@mui/material";
 import CourseCard from "../components/coursecard.component";
 
-const CourseViewPage = ({ searchQuery }) => {
+const CourseViewPage = observer(({ searchQuery }) => {
+  const { data: courses = [], isLoading, error } = getCourses();
   const [visibleCount, setVisibleCount] = useState(6);
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [view, setView] = useState("all");
 
+  useEffect(() => {
+    if (userStore.user) {
+      userStore.fetchFavourites();
+    }
+  }, [userStore.user]);
+
   const handleShowMore = () => {
     setVisibleCount((prev) => prev + 3);
   };
 
-  //todo: test data
-  const sampleCourses = Array.from({ length: 10 }, (_, index) => ({
-    id: index + 1,
-    title: `Course ${index + 1}`,
-    description: `This is a description for Course ${index + 1}.`,
-    imageUrl: `https://via.placeholder.com/345x140.png?text=Course+${
-      index + 1
-    }`,
-    category: index % 2 === 0 ? "Programming" : "Design",
-    difficulty: index % 3 === 0 ? "Beginner" : "Advanced",
-    favourite: index % 4 === 0,
-  }));
-
   // Filtered courses
-  const filteredCourses = sampleCourses.filter((course) => {
+  const filteredCourses = courses.filter((course) => {
     const query = searchQuery?.toLowerCase() || "";
     const match =
       course.title.toLowerCase().includes(query) ||
@@ -46,7 +44,7 @@ const CourseViewPage = ({ searchQuery }) => {
       (query === "" || match) &&
       (category === "" || course.category === category) &&
       (difficulty === "" || course.difficulty === difficulty) &&
-      (view === "all" || course.favourite)
+      (view === "all" || (userStore.favourites.indexOf(course.id) > -1 && view === "favourites"))
     );
   });
 
@@ -119,6 +117,6 @@ const CourseViewPage = ({ searchQuery }) => {
       )}
     </Box>
   );
-};
+});
 
 export default CourseViewPage;

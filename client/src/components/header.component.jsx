@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
+import { observer } from "mobx-react-lite";
+import { userStore } from "../utils/mockAPI-user"
 import {
   AppBar,
   Container,
@@ -28,7 +30,8 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import { AccountCircle } from "@mui/icons-material";
 import SearchInput from "./search.component";
 
-const Header = ({ loggedIn = true, darkMode, setDarkMode, searchQuery, setSearchQuery }) => {
+const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery }) => {
+  const loggedIn = userStore.token ? true : false;
   let showLogin = false;
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
@@ -41,6 +44,8 @@ const Header = ({ loggedIn = true, darkMode, setDarkMode, searchQuery, setSearch
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+    userStore.logout();
+    navigate("/auth/login");
   };
 
   const handleCloseUserMenu = () => {
@@ -189,6 +194,6 @@ const Header = ({ loggedIn = true, darkMode, setDarkMode, searchQuery, setSearch
       </AppBar>
     </Box>
   );
-};
+});
 
 export default Header;

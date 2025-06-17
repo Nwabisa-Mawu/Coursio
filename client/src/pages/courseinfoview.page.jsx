@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { userStore } from "../utils/mockAPI-user";
+import { observer } from "mobx-react-lite";
 import { Box, Typography, IconButton, Stack } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
-const CourseInfoView = ({ course }) => {
+const CourseInfoView = observer(({ course }) => {
   const [liked, setLiked] = useState(false);
   const navigate = useNavigate();
+  const isFavourite = userStore.favourites.includes(course.id);
 
   const handleBack = () => {
     navigate("/dashboard/courses");
@@ -15,6 +18,10 @@ const CourseInfoView = ({ course }) => {
 
   const handleLikeToggle = () => {
     setLiked((prev) => !prev);
+  };
+
+  const handleToggleFavourite = () => {
+    userStore.toggleFavourite(course.id, userStore.favourites);
   };
 
   return (
@@ -59,8 +66,8 @@ const CourseInfoView = ({ course }) => {
         spacing={1}
         sx={{ mb: 4 }}
       >
-        <IconButton onClick={handleLikeToggle} color="error">
-          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+       <IconButton onClick={handleToggleFavourite}>
+          {isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <Typography variant="body1">Favourites</Typography>
       </Stack>
@@ -71,6 +78,6 @@ const CourseInfoView = ({ course }) => {
       </Typography>
     </Box>
   );
-};
+});
 
 export default CourseInfoView;
