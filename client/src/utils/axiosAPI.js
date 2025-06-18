@@ -1,11 +1,10 @@
 import axios from "axios";
 
-
 export const coursesApi = axios.create({
-  baseURL: env.REACT_APP_COURSES_API
+  baseURL: "https://api.jsonbin.io/v3/b/6851b3108561e97a5025fe00",
 });
 
 
 export const mockApi = axios.create({
-  baseURL: env.REACT_APP_MOCK_API
+  baseURL: "https://68517eaf8612b47a2c0a4ef6.mockapi.io/coursecat/api",
 });
