@@ -40,6 +40,7 @@ class UserStore {
     this.user = null;
     this.token = null;
     this.favourites = [];
+    localStorage.removeItem("favourites");
     localStorage.removeItem("token");
   }
 
@@ -49,6 +50,7 @@ class UserStore {
     this.favourites = res.data
     .filter((f) => f.userId == this.user.id)
     .map((f) => f.courseId);
+ localStorage.setItem("favourites", this.favourites);
   }
 
   async toggleFavourite(courseId, favourites) {
