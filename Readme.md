@@ -8,7 +8,7 @@ A modern educational web application to browse, filter, and manage online course
 🚀 Live Demo
 
 👉 Check it out here!
-(Replace # with your Netlify link)
+https://jovial-tartufo-cd2637.netlify.app
 
 
 
@@ -74,7 +74,8 @@ npm run dev
 
 🔗 Deployed Version
 
-👉 Netlify Link: https://your-app-name.netlify.app
+👉 Netlify Link:
+https://jovial-tartufo-cd2637.netlify.app
 (Replace with your live link)
 
 
