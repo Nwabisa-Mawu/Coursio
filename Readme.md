@@ -5,14 +5,14 @@ A modern educational web application to browse, filter, and manage online course
 
 
 
-🚀 Live Demo
+🚀 <h3>Live Demo</h3>
 
 👉 Check it out here!
 https://jovial-tartufo-cd2637.netlify.app
 
 
 
-✨ Features
+✨ <h3>Features</h3>
 
 🔍 Search & Filter: Find courses by name, instructor, category, or difficulty.
 
@@ -28,7 +28,7 @@ https://jovial-tartufo-cd2637.netlify.app
 
 
 
-🛠️ Tech Stack
+🛠️ <h3>Tech Stack</h3>
 
 Frontend:
 
@@ -72,11 +72,10 @@ npm install
 npm run dev
 
 
-🔗 Deployed Version
+🔗 <h3>Deployed Version</h3>
 
 👉 Netlify Link:
 https://jovial-tartufo-cd2637.netlify.app
-(Replace with your live link)
 
 
 
