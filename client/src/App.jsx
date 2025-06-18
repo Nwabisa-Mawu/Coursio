@@ -23,6 +23,35 @@ function App() {
       createTheme({
         palette: {
           mode: darkMode ? "dark" : "light",
+          ...(darkMode
+            ? {
+                // dark mode
+                background: {
+                  default: "#1F1E2C", 
+                  paper: "#262837",  
+                },
+                primary: {
+                  main: "#0177FB",   
+                },
+                text: {
+                  primary: "#FFFFFF", 
+                  secondary: "#585A65", 
+                },
+              }
+            : {
+                // light
+                background: {
+                  default: "#FFFFFF", 
+                  paper: "#FFFFFF",   
+                },
+                primary: {
+                  main: "#0177FB",    
+                },
+                text: {
+                  primary: "#1F1E2C",
+                  secondary: "#585A65",
+                },
+              }),
         },
       }),
     [darkMode]

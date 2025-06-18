@@ -50,7 +50,7 @@ const AuthForm = observer(({ mode = "signup", onSubmit }) => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}
+      sx={{ display: "flex", flexDirection: "column", gap: 3, width: { md: 400 , xs: "100%"}, alignItems: "center" }}
     >
       {!isLoginPage && (
         <TextField

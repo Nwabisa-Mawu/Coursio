@@ -13,27 +13,23 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Badge,
   Avatar,
   ListItemIcon,
   useMediaQuery,
   useTheme,
   Switch,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import { AccountCircle } from "@mui/icons-material";
 import SearchInput from "./search.component";
 
 const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery }) => {
   const loggedIn = userStore.token ? true : false;
   let showLogin = false;
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [imageUrl, setImageUrl] = useState(userStore.user?.imageUrl || 'https://via.placeholder.com/100x100.png?text=Avatar');
   const navigate = useNavigate();
   const theme = useTheme();
   const isTabletOrBelow = useMediaQuery(theme.breakpoints.down("md"));
@@ -44,14 +40,17 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-    userStore.logout();
-    navigate("/auth/login");
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-    navigate("/");
   };
+
+  const handleLogout = () => {
+    setAnchorElUser(null);
+    userStore.logout();
+    navigate("/auth/login");
+  }
 
   if (location.pathname.includes("/auth/signup")) {
     showLogin = false;
@@ -61,7 +60,9 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar>
+      <AppBar sx={{
+         backgroundColor: (theme) => theme.palette.background.paper || "#fff",
+      }}>
         <Container maxWidth="xl">
           <Toolbar
             disableGutters
@@ -73,12 +74,12 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
             }}
           >
             {/* LOGO + Company Name */}
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", color: "#0177FB" }}>
               <LocalLibraryIcon />
 
               {(!isTabletOrBelow || !loggedIn) && (
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   noWrap
                   component="a"
                   href="/"
@@ -87,11 +88,10 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
                     fontFamily: "monospace",
                     fontWeight: 700,
                     letterSpacing: ".3rem",
-                    color: "inherit",
                     textDecoration: "none",
                   }}
                 >
-                  LOGO
+                  Coursio
                 </Typography>
               )}
             </Box>
@@ -103,24 +103,23 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
                   flexGrow: 1,
                   mx: 5,
                   position: "absolute",
-                  left: { xs: "30%", md: "50%" },
+                  left: { sm: "65%", lg: "50%", md: "65%", xs: "40%" },
                   transform: "translateX(-50%)",
-                  width: { xs: "50%", md: "40%" },
+                  width: { xs: "50%", md: "50%" },
                 }}
               >
                 <SearchInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
               </Box>
             )}
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, color: "#0177FB" }}>
               {!loggedIn && !showLogin && (
-                <Button color="inherit" onClick={() => navigate("/auth/login")}>
+                <Button variant="contained"  onClick={() => navigate("/auth/login")}>
                   Login
                 </Button>
               )}
               {!loggedIn && showLogin && (
-                <Button
-                  color="inherit"
+                <Button variant="contained"
                   onClick={() => navigate("/auth/signup")}
                 >
                   Sign Up
@@ -129,18 +128,10 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
 
               {loggedIn && (
                 <>
-                  <Tooltip title="Notifications">
-                    <IconButton size="large" color="inherit">
-                      <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                      </Badge>
-                    </IconButton>
-                  </Tooltip>
-
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton sx={{ p: 0 }} onClick={handleOpenUserMenu}>
-                        <Avatar alt="User" src="/static/images/avatar/2.jpg" />
+                        <Avatar alt="User" src={imageUrl} />
                       </IconButton>
                     </Tooltip>
                     <Menu
@@ -176,7 +167,7 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
                           size="small"
                         />
                       </MenuItem>
-                      <MenuItem onClick={handleCloseUserMenu}>
+                      <MenuItem onClick={handleLogout}>
                         <ListItemIcon>
                           <LogoutIcon fontSize="small" />
                         </ListItemIcon>

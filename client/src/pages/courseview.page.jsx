@@ -13,6 +13,8 @@ import {
   MenuItem,
   ToggleButtonGroup,
   ToggleButton,
+  Dialog,
+  DialogTitle
 } from "@mui/material";
 import CourseCard from "../components/coursecard.component";
 
@@ -22,6 +24,8 @@ const CourseViewPage = observer(({ searchQuery }) => {
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [view, setView] = useState("all");
+  const [favouriteDialogOpen, setFavouriteDialogOpen] = useState(false);
+  const [favouriteDialogMessage, setFavouriteDialogMessage] = useState("");
 
   useEffect(() => {
     if (userStore.user) {
@@ -49,7 +53,7 @@ const CourseViewPage = observer(({ searchQuery }) => {
   });
 
   return (
-    <Box sx={{ p: 4, mt: 5 }}>
+    <Box sx={{ p: 4, mt: 5, width: { md: 1000 , xs: "100%"} }}>
       {/* FILTERS */}
       <Box
         sx={{
@@ -103,7 +107,14 @@ const CourseViewPage = observer(({ searchQuery }) => {
       <Grid container spacing={3}>
         {filteredCourses.slice(0, visibleCount).map((course) => (
           <Grid item xs={12} sm={6} md={4} key={course.id}>
-            <CourseCard course={course} />
+           <CourseCard course={course} 
+              onFavourite={(isNowFavourite) => {
+                setFavouriteDialogMessage(
+                  isNowFavourite ? "Course added to favourites!" : "Course removed from favourites."
+                );
+                setFavouriteDialogOpen(true);
+                setTimeout(() => setFavouriteDialogOpen(false), 1000);
+              }}  />
           </Grid>
         ))}
       </Grid>
@@ -115,6 +126,9 @@ const CourseViewPage = observer(({ searchQuery }) => {
           </Button>
         </Box>
       )}
+      <Dialog open={favouriteDialogOpen} onClose={() => setFavouriteDialogOpen(false)}>
+      <DialogTitle>{favouriteDialogMessage}</DialogTitle>
+</Dialog>
     </Box>
   );
 });

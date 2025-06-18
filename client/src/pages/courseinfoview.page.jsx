@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { userStore } from "../utils/mockAPI-user";
 import { observer } from "mobx-react-lite";
-import { Box, Typography, IconButton, Stack } from "@mui/material";
+import { Box, Typography, IconButton, Stack, Card } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const CourseInfoView = observer(({ course }) => {
-  const [liked, setLiked] = useState(false);
   const navigate = useNavigate();
   const isFavourite = userStore.favourites.includes(course.id);
 
@@ -16,22 +15,30 @@ const CourseInfoView = observer(({ course }) => {
     navigate("/dashboard/courses");
   };
 
-  const handleLikeToggle = () => {
-    setLiked((prev) => !prev);
-  };
-
   const handleToggleFavourite = () => {
     userStore.toggleFavourite(course.id, userStore.favourites);
   };
 
   return (
-    <Box sx={{  maxWidth: 800, mx: "auto", p: 4, textAlign: "center", position: "relative" }}>
-      <IconButton
-        onClick={handleBack}
-        sx={{ position: "absolute", top: 16, left: 16 }}
-      >
-        <ArrowBackIcon />
-      </IconButton>
+
+    <Card 
+  sx={{ 
+    maxWidth: 1000, 
+    mx: "auto",
+    p: 0,          
+    borderRadius: 2,
+    overflow: "hidden",
+    position: "relative",
+    mt: 8,
+  }}
+>
+<Box sx={{  maxWidth: 800, mx: "auto", p: 4, textAlign: "center", position: "relative", flexDirection: "column", display: "flex", alignItems: "center" }}>
+<IconButton
+  onClick={handleBack}
+  sx={{ position: "absolute", top: 16, left: 16, color: "white" }}
+>
+  <ArrowBackIcon />
+</IconButton>
       <Box
         component="img"
         src={
@@ -40,13 +47,12 @@ const CourseInfoView = observer(({ course }) => {
         }
         alt={course.altText || "Course Image"}
         sx={{
-          width: "100%",
-          height: "auto",
-          borderRadius: 2,
-          mb: 4,
+          width: "70%",
+          height: "40%",
+          display: "block",
         }}
       />
-
+      <Box sx={{ p: 4, textAlign: "center" }}>
       <Typography variant="h4" gutterBottom>
         {course.title || "Course Title"}
       </Typography>
@@ -69,14 +75,17 @@ const CourseInfoView = observer(({ course }) => {
        <IconButton onClick={handleToggleFavourite}>
           {isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
-        <Typography variant="body1">Favourites</Typography>
+        <Typography variant="body1">Save to Favourites</Typography>
       </Stack>
 
       <Typography variant="body1" sx={{ textAlign: "left" }}>
         {course.description ||
           "This is a detailed description of the course. It provides an overview of the topics covered, the learning outcomes, and any prerequisites required for students to get the most out of the course."}
       </Typography>
+      </Box>
     </Box>
+</Card>
+   
   );
 });
 

@@ -10,14 +10,12 @@ import {
   Toolbar,
   Drawer,
   Box,
-  IconButton,
+  Typography,
 } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import PersonIcon from "@mui/icons-material/Person";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { styled } from "@mui/system";
-import { useTheme } from "@mui/material/styles";
-import { useMediaQuery } from "@mui/material";
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+
 
 const DrawerMenu = ({ drawerWidth }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -35,9 +33,41 @@ const DrawerMenu = ({ drawerWidth }) => {
 
   const drawer = (
     <div>
-      <Toolbar />
+      {/* <Toolbar /> */}
+       <Toolbar
+                  disableGutters
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    position: "relative",
+                  }}
+                >
+                  {/* LOGO */}
+                  <Box sx={{ display: "flex", alignItems: "center", color: "#0177FB", mx: 2 }}>
+                    <LocalLibraryIcon />
+      
+            
+                      <Typography
+                        variant="h5"
+                        noWrap
+                        component="a"
+                        href="/"
+                        sx={{
+                          ml: 1,
+                          fontFamily: "monospace",
+                          fontWeight: 700,
+                          letterSpacing: ".3rem",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Coursio
+                      </Typography>
+                  
+                  </Box>
+                  </Toolbar>
       <Divider />
-      <List sx={{ color: "blue" }}>
+      <List >
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigate("/dashboard/courses")}>
             <ListItemIcon>
@@ -52,14 +82,6 @@ const DrawerMenu = ({ drawerWidth }) => {
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primary="Account" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate("/dashboard/settings")}>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
           </ListItemButton>
         </ListItem>
       </List>

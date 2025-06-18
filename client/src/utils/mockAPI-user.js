@@ -71,7 +71,22 @@ class UserStore {
       this.favourites.push(courseId);
     }
   }
+
+  async updateProfile({ username, about, email, password, profileImage }) {
+    if (!this.user) return;
+
+    const payload = { username, about, email, profileImage };
+
+    if (password) {
+      const hash = await bcrypt.hash(password, 10);
+      payload.passwordHash = hash;
+    }
+
+    const res = await mockApi.put(`/users/${this.user.id}`, payload);
+    this.user = res.data;
+  }
 }
+
 
 //create mobX instance
 export const userStore = new UserStore();

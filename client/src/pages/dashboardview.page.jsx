@@ -1,24 +1,9 @@
 import * as React from "react";
 import { useLocation, useParams } from "react-router";
 import { getCourses } from "../utils/courses-api";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Header from "../components/header.component";
-import AuthPage from "../pages/auth.page";
 import CourseViewPage from "../pages/courseview.page";
 import DrawerMenu from "../components/drawermenu.component";
 import UserProfileEditForm from "../components/editform.component";
@@ -75,7 +60,7 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          ml: { sm: `${drawerWidth}px` }
         }}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
@@ -95,6 +80,7 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          backgroundColor: (theme) => theme.palette.background.default,
         }}
       >
         {content}

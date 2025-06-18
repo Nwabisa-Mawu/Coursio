@@ -14,17 +14,14 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { userStore } from "../utils/mockAPI-user"; 
 
-const CourseCard = observer(({ course }) => {
-   const [liked, setLiked] = useState(false);
+const CourseCard = observer(({ course, onFavourite }) => {
    const navigate = useNavigate();
    const isFavourite = userStore.favourites.includes(course.id);
 
-  const handleCardClick = () => {
-    navigate(`/dashboard/course/course`);
-  }
-
   const handleToggleFavourite = () => {
+    const isNowFavourite = !isFavourite;
     userStore.toggleFavourite(course.id, userStore.favourites);
+    if (onFavourite) onFavourite(isNowFavourite);
   };
 
   const openCourseDetails = () => {
@@ -32,7 +29,7 @@ const CourseCard = observer(({ course }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, height: 350 }}>
       <CardMedia
         component="img"
         alt={course.altText || "Course Image"}
@@ -47,8 +44,8 @@ const CourseCard = observer(({ course }) => {
           {course.title || "Course Title"}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {course.description ||
-            "This is a brief description of the course. It provides an overview of what the course covers and its objectives."}
+          {course.difficulty ||
+            ""}
         </Typography>
       </CardContent>
       <CardActions>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { userStore } from '../utils/mockAPI-user';
+import { observer } from 'mobx-react-lite';
 import {
   Box,
   TextField,
@@ -8,24 +10,26 @@ import {
   InputAdornment,
   Grid,
   Avatar,
+  Dialog,
+  DialogTitle,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
-const UserProfileEditForm = ({ onCancel, onSave }) => {
-  const [username, setUsername] = useState('JohnDoe');
-  const [about, setAbout] = useState('This is my bio...');
-  const [email, setEmail] = useState('john@example.com');
+const UserProfileEditForm = observer(({ onCancel, onSave }) => {
+  const user = userStore.user;
+  const [username, setUsername] = useState(user?.username || '');
+  const [about, setAbout] = useState(user?.about || '');
+  const [email, setEmail] = useState(user?.email || '');
+  const [imageUrl, setImageUrl] = useState(user?.imageUrl || 'https://via.placeholder.com/100x100.png?text=Avatar');
   const [showPasswordInputs, setShowPasswordInputs] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
-  const [profileImage, setProfileImage] = useState(
-    'https://via.placeholder.com/100x100.png?text=Avatar'
-  );
 
   const handleToggleShowPasswordInputs = () => {
     setShowPasswordInputs(!showPasswordInputs);
@@ -41,21 +45,29 @@ const UserProfileEditForm = ({ onCancel, onSave }) => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setProfileImage(imageUrl);
+      setImageUrl(imageUrl);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onSave) {
-      onSave({
-        username,
-        about,
-        email,
-        password: showPasswordInputs ? password : undefined,
-        profileImage,
-      });
+
+    if (showPasswordInputs && password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
     }
+  
+    await userStore.updateProfile({
+      username,
+      about,
+      email,
+      password: showPasswordInputs ? password : undefined,
+      imageUrl,
+    });
+  
+    if (onSave) onSave();
+    setSuccessDialogOpen(true);
+    setTimeout(() => setSuccessDialogOpen(false), 1000);
   };
 
   return (
@@ -66,7 +78,7 @@ const UserProfileEditForm = ({ onCancel, onSave }) => {
 
       <Grid container spacing={2}>
         <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Avatar src={profileImage} sx={{ width: 64, height: 64 }} />
+          <Avatar src={imageUrl} sx={{ width: 64, height: 64 }} />
           <Button
             variant="outlined"
             component="label"
@@ -165,8 +177,13 @@ const UserProfileEditForm = ({ onCancel, onSave }) => {
           Save
         </Button>
       </Box>
+      <Dialog open={successDialogOpen} onClose={() => setSuccessDialogOpen(false)}>
+  <DialogTitle>
+    Changes saved successfully
+  </DialogTitle>
+</Dialog>
     </Box>
   );
-};
+});
 
 export default UserProfileEditForm;
