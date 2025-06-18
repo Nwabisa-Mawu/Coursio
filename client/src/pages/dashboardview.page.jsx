@@ -64,13 +64,16 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
         setDarkMode={setDarkMode}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        handleDrawerToggle={handleDrawerToggle}
       />
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <DrawerMenu drawerWidth={drawerWidth} />
+        <DrawerMenu drawerWidth={drawerWidth}
+          mobileOpen={mobileOpen} 
+          handleDrawerToggle={handleDrawerToggle} />
       </Box>
       <Box
         component="main"

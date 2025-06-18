@@ -24,8 +24,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import SearchInput from "./search.component";
+import MenuIcon from "@mui/icons-material/Menu";
 
-const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery }) => {
+const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery, handleDrawerToggle }) => {
   const loggedIn = userStore.token ? true : false;
   let showLogin = false;
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -61,7 +62,7 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={{
-         backgroundColor: (theme) => theme.palette.background.paper || "#fff",
+        backgroundColor: (theme) => theme.palette.background.paper || "#fff",
       }}>
         <Container maxWidth="xl">
           <Toolbar
@@ -73,8 +74,20 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
               position: "relative",
             }}
           >
+            {/* open side drawer */}
+            {loggedIn && isTabletOrBelow && (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             {/* LOGO + Company Name */}
-            <Box sx={{ display: "flex", alignItems: "center", color: "#0177FB" }}>
+            <Box sx={{ display: "flex", alignItems: "center", color: "#0177FB", display: "none" }}>
               <LocalLibraryIcon />
 
               {(!isTabletOrBelow || !loggedIn) && (
@@ -114,7 +127,7 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery })
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, color: "#0177FB" }}>
               {!loggedIn && !showLogin && (
-                <Button variant="contained"  onClick={() => navigate("/auth/login")}>
+                <Button variant="contained" onClick={() => navigate("/auth/login")}>
                   Login
                 </Button>
               )}

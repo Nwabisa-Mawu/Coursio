@@ -17,14 +17,13 @@ import PersonIcon from "@mui/icons-material/Person";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 
 
-const DrawerMenu = ({ drawerWidth }) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+const DrawerMenu = ({ drawerWidth, mobileOpen, handleDrawerToggle }) => {
   const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
-    setMobileOpen(false);
+    handleDrawerToggle(); 
   };
 
   const handleDrawerTransitionEnd = () => {

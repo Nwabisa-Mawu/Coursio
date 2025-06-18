@@ -6,6 +6,7 @@ export const getCourses = () => {
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await coursesApi.get("/");
+      localStorage.setItem("course", JSON.stringify(res.data.record));
       return res.data.record; 
     },
   });
