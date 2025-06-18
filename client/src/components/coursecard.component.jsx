@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { observer } from "mobx-react-lite";
 import {
   Card,
   CardMedia,
@@ -11,21 +12,24 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { userStore } from "../utils/mockAPI-user"; 
 
-const CourseCard = ({ course }) => {
-   const [liked, setLiked] = useState(false);
+const CourseCard = observer(({ course, onFavourite }) => {
    const navigate = useNavigate();
+   const isFavourite = userStore.favourites.includes(course.id);
 
-  const handleCardClick = () => {
-    navigate(`/dashboard/course/course`);
-  }
+  const handleToggleFavourite = () => {
+    const isNowFavourite = !isFavourite;
+    userStore.toggleFavourite(course.id, userStore.favourites);
+    if (onFavourite) onFavourite(isNowFavourite);
+  };
 
-   const handleLikeToggle = () => {
-    setLiked((prev) => !prev);
+  const openCourseDetails = () => {
+    navigate(`/dashboard/course/${course.id}`);
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, height: 350 }}>
       <CardMedia
         component="img"
         alt={course.altText || "Course Image"}
@@ -40,18 +44,18 @@ const CourseCard = ({ course }) => {
           {course.title || "Course Title"}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {course.description ||
-            "This is a brief description of the course. It provides an overview of what the course covers and its objectives."}
+          {course.difficulty ||
+            ""}
         </Typography>
       </CardContent>
       <CardActions>
-        <IconButton onClick={handleLikeToggle}>
-          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        <IconButton onClick={handleToggleFavourite}>
+          {isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
-        <Button size="small" onClick={() => navigate("/dashboard/course")}>Learn More</Button>
+        <Button size="small" onClick={openCourseDetails} >Learn More</Button>
       </CardActions>
     </Card>
   );
-};
+});
 
 export default CourseCard;

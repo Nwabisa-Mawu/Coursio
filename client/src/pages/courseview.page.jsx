@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { getCourses } from "../utils/courses-api";
+import { userStore } from "../utils/mockAPI-user";
+
 import {
   Box,
   Button,
@@ -9,34 +13,32 @@ import {
   MenuItem,
   ToggleButtonGroup,
   ToggleButton,
+  Dialog,
+  DialogTitle
 } from "@mui/material";
 import CourseCard from "../components/coursecard.component";
 
-const CourseViewPage = ({ searchQuery }) => {
+const CourseViewPage = observer(({ searchQuery }) => {
+  const { data: courses = [], isLoading, error } = getCourses();
   const [visibleCount, setVisibleCount] = useState(6);
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [view, setView] = useState("all");
+  const [favouriteDialogOpen, setFavouriteDialogOpen] = useState(false);
+  const [favouriteDialogMessage, setFavouriteDialogMessage] = useState("");
+
+  useEffect(() => {
+    if (userStore.user) {
+      userStore.fetchFavourites();
+    }
+  }, [userStore.user]);
 
   const handleShowMore = () => {
     setVisibleCount((prev) => prev + 3);
   };
 
-  //todo: test data
-  const sampleCourses = Array.from({ length: 10 }, (_, index) => ({
-    id: index + 1,
-    title: `Course ${index + 1}`,
-    description: `This is a description for Course ${index + 1}.`,
-    imageUrl: `https://via.placeholder.com/345x140.png?text=Course+${
-      index + 1
-    }`,
-    category: index % 2 === 0 ? "Programming" : "Design",
-    difficulty: index % 3 === 0 ? "Beginner" : "Advanced",
-    favourite: index % 4 === 0,
-  }));
-
   // Filtered courses
-  const filteredCourses = sampleCourses.filter((course) => {
+  const filteredCourses = courses.filter((course) => {
     const query = searchQuery?.toLowerCase() || "";
     const match =
       course.title.toLowerCase().includes(query) ||
@@ -46,12 +48,12 @@ const CourseViewPage = ({ searchQuery }) => {
       (query === "" || match) &&
       (category === "" || course.category === category) &&
       (difficulty === "" || course.difficulty === difficulty) &&
-      (view === "all" || course.favourite)
+      (view === "all" || (userStore.favourites.indexOf(course.id) > -1 && view === "favourites"))
     );
   });
 
   return (
-    <Box sx={{ p: 4, mt: 5 }}>
+    <Box sx={{ p: 4, mt: 5, width: { md: 1000 , xs: "100%"} }}>
       {/* FILTERS */}
       <Box
         sx={{
@@ -105,7 +107,14 @@ const CourseViewPage = ({ searchQuery }) => {
       <Grid container spacing={3}>
         {filteredCourses.slice(0, visibleCount).map((course) => (
           <Grid item xs={12} sm={6} md={4} key={course.id}>
-            <CourseCard course={course} />
+           <CourseCard course={course} 
+              onFavourite={(isNowFavourite) => {
+                setFavouriteDialogMessage(
+                  isNowFavourite ? "Course added to favourites!" : "Course removed from favourites."
+                );
+                setFavouriteDialogOpen(true);
+                setTimeout(() => setFavouriteDialogOpen(false), 1000);
+              }}  />
           </Grid>
         ))}
       </Grid>
@@ -117,8 +126,11 @@ const CourseViewPage = ({ searchQuery }) => {
           </Button>
         </Box>
       )}
+      <Dialog open={favouriteDialogOpen} onClose={() => setFavouriteDialogOpen(false)}>
+      <DialogTitle>{favouriteDialogMessage}</DialogTitle>
+</Dialog>
     </Box>
   );
-};
+});
 
 export default CourseViewPage;
