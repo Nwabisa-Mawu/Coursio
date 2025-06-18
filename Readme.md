@@ -1,4 +1,4 @@
-📚 Course Catalog Web App
+📚 Coursio: Course Catalog Web App
 
 A modern educational web application to browse, filter, and manage online courses.
 
@@ -32,7 +32,7 @@ A modern educational web application to browse, filter, and manage online course
 
 Frontend:
 
-React (Vite)
+Reactjs (Vite)
 
 Material-UI (MUI)
 
