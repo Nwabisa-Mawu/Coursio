@@ -47,8 +47,6 @@ const DashboardViewPage = ({ darkMode, setDarkMode }) => {
     } else {
       content = <div>Loading course details...</div>;
     }
-  } else if (location.pathname.includes("/dashboard/settings")) {
-    content = <SettingsPage />;
   } else {
     content = <div>Page Not Found</div>;
   }
