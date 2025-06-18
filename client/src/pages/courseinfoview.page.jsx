@@ -35,7 +35,7 @@ const CourseInfoView = observer(({ course }) => {
 <Box sx={{  maxWidth: 800, mx: "auto", p: 4, textAlign: "center", position: "relative", flexDirection: "column", display: "flex", alignItems: "center" }}>
 <IconButton
   onClick={handleBack}
-  sx={{ position: "absolute", top: 16, left: 16, color: "white" }}
+  sx={{ position: "absolute", top: 16, left: 16 }}
 >
   <ArrowBackIcon />
 </IconButton>

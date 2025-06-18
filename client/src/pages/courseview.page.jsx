@@ -86,6 +86,7 @@ const CourseViewPage = observer(({ searchQuery }) => {
           >
             <MenuItem value="">All</MenuItem>
             <MenuItem value="Beginner">Beginner</MenuItem>
+            <MenuItem value="Intermediate">Intermediate</MenuItem>
             <MenuItem value="Advanced">Advanced</MenuItem>
           </Select>
         </FormControl>
