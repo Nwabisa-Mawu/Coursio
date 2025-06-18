@@ -76,7 +76,6 @@ npm run dev
 
 👉 Netlify Link:
 https://jovial-tartufo-cd2637.netlify.app
-(Replace with your live link)
 
 
 
