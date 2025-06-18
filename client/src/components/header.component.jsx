@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import { observer } from "mobx-react-lite";
 import { userStore } from "../utils/mockAPI-user"
 import {
@@ -30,7 +30,6 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery, h
   const loggedIn = userStore.token ? true : false;
   let showLogin = false;
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [imageUrl, setImageUrl] = useState(userStore.user?.imageUrl || 'https://via.placeholder.com/100x100.png?text=Avatar');
   const navigate = useNavigate();
   const theme = useTheme();
   const isTabletOrBelow = useMediaQuery(theme.breakpoints.down("md"));
@@ -77,7 +76,6 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery, h
             {/* open side drawer */}
             {loggedIn && isTabletOrBelow && (
               <IconButton
-                color="inherit"
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
@@ -87,8 +85,8 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery, h
               </IconButton>
             )}
             {/* LOGO + Company Name */}
-            <Box sx={{ display: "flex", alignItems: "center", color: "#0177FB", display: "none" }}>
-              <LocalLibraryIcon />
+            <Box sx={{ display: "flex", alignItems: "center", color: "#0177FB" }}>
+              <LocalLibraryIcon sx={{ display: { xs: "none", sm: "none" } }} />
 
               {(!isTabletOrBelow || !loggedIn) && (
                 <Typography
@@ -144,7 +142,7 @@ const Header = observer(({ darkMode, setDarkMode, searchQuery, setSearchQuery, h
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton sx={{ p: 0 }} onClick={handleOpenUserMenu}>
-                        <Avatar alt="User" src={imageUrl} />
+                        <Avatar alt="User" src='https://via.placeholder.com/100x100.png?text=Avatar' />
                       </IconButton>
                     </Tooltip>
                     <Menu
